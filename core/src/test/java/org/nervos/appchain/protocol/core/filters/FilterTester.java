@@ -13,9 +13,9 @@ import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
-import org.nervos.appchain.protocol.NervosjService;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
+import org.nervos.appchain.protocol.AppChainjService;
 
 import org.nervos.appchain.protocol.ObjectMapperFactory;
 import org.nervos.appchain.protocol.core.Request;
@@ -38,8 +38,8 @@ import static org.mockito.Mockito.when;
 
 public abstract class FilterTester {
 
-    private NervosjService nervosjService;
-    Nervosj nervosj;
+    private AppChainjService appChainjService;
+    AppChainj appChainj;
 
     final ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
     final ScheduledExecutorService scheduledExecutorService =
@@ -47,8 +47,8 @@ public abstract class FilterTester {
 
     @Before
     public void setUp() {
-        nervosjService = mock(NervosjService.class);
-        nervosj = NervosjFactory.build(nervosjService, 1000, scheduledExecutorService);
+        appChainjService = mock(AppChainjService.class);
+        appChainj = AppChainjFactory.build(appChainjService, 1000, scheduledExecutorService);
     }
 
     <T> void runTest(AppLog appLog, Observable<T> observable) throws Exception {
@@ -70,11 +70,11 @@ public abstract class FilterTester {
 
         final CountDownLatch completedLatch = new CountDownLatch(1);
 
-        when(nervosjService.send(any(Request.class), eq(AppFilter.class)))
+        when(appChainjService.send(any(Request.class), eq(AppFilter.class)))
                 .thenReturn(appFilter);
-        when(nervosjService.send(any(Request.class), eq(AppLog.class)))
+        when(appChainjService.send(any(Request.class), eq(AppLog.class)))
                 .thenReturn(appLog);
-        when(nervosjService.send(any(Request.class), eq(AppUninstallFilter.class)))
+        when(appChainjService.send(any(Request.class), eq(AppUninstallFilter.class)))
                 .thenReturn(appUninstallFilter);
 
         Subscription subscription = observable.subscribe(

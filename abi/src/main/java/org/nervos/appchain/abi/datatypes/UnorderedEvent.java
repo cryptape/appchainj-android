@@ -53,7 +53,7 @@ public class UnorderedEvent {
     public List<Integer> getIndexedParametersSeq() {
         List<Integer> list = new ArrayList<>();
         for (EventType eventType : this.params) {
-            if(eventType.indexed) {
+            if (eventType.indexed) {
                 list.add(eventType.seqNum);
             }
         }
@@ -63,7 +63,7 @@ public class UnorderedEvent {
     public List<TypeReference<Type>> getNonIndexedParameters() {
         List<TypeReference<Type>> list = new ArrayList<>();
         for (EventType eventType : this.params) {
-            if(!eventType.indexed) {
+            if (!eventType.indexed) {
                 list.add(eventType.type);
             }
         }
@@ -73,7 +73,7 @@ public class UnorderedEvent {
     public List<Integer> getNonIndexedParametersSeq() {
         List<Integer> list = new ArrayList<>();
         for (EventType eventType : this.params) {
-            if(!eventType.indexed) {
+            if (!eventType.indexed) {
                 list.add(eventType.seqNum);
             }
         }

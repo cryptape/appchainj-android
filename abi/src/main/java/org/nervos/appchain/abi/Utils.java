@@ -92,7 +92,7 @@ public class Utils {
     @SuppressWarnings("unchecked")
     public static List<TypeReference<Type>> convert(List<TypeReference<?>> input) {
         List<TypeReference<Type>> result = new ArrayList<>(input.size());
-        for(TypeReference<?> typeReference : input) {
+        for (TypeReference<?> typeReference : input) {
             result.add((TypeReference<Type>) typeReference);
         }
         return result;

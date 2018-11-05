@@ -22,7 +22,7 @@ import org.nervos.appchain.abi.datatypes.Utf8String;
 import org.nervos.appchain.abi.datatypes.generated.Uint256;
 import org.nervos.appchain.crypto.Credentials;
 import org.nervos.appchain.crypto.SampleKeys;
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.RemoteCall;
 import org.nervos.appchain.protocol.core.Request;
@@ -61,7 +61,7 @@ public class ContractTest extends ManagedTransactionTester {
         super.setUp();
 
         contract = new TestContract(
-                ADDRESS, nervosj, SampleKeys.CREDENTIALS,
+                ADDRESS, appChainj, SampleKeys.CREDENTIALS,
                 Contract.GAS_PRICE, Contract.GAS_LIMIT);
     }
 
@@ -129,7 +129,7 @@ public class ContractTest extends ManagedTransactionTester {
         try {
             TestContract.deployRemoteCall(
                     TestContract.class,
-                    nervosj, SampleKeys.CREDENTIALS,
+                    appChainj, SampleKeys.CREDENTIALS,
                     BigInteger.valueOf(100L), BigInteger.valueOf(100L),
                     "0xcafed00d", encodedConstructor, "0").send();
         } catch (InterruptedException e) {
@@ -190,7 +190,7 @@ public class ContractTest extends ManagedTransactionTester {
         Request<?, AppCall> request = mock(Request.class);
         when(request.send()).thenReturn(ethCall);
 
-        when(nervosj.appCall(any(Call.class), eq(DefaultBlockParameterName.LATEST)))
+        when(appChainj.appCall(any(Call.class), eq(DefaultBlockParameterName.LATEST)))
                 .thenReturn((Request) request);
     }
 
@@ -234,10 +234,10 @@ public class ContractTest extends ManagedTransactionTester {
         prepareTransaction(null);
 
         TransactionManager transactionManager = new RawTransactionManager(
-                nervosj, SampleKeys.CREDENTIALS, 1, 1);
+                appChainj, SampleKeys.CREDENTIALS, 1, 1);
 
         contract = new TestContract(
-                ADDRESS, nervosj, transactionManager,
+                ADDRESS, appChainj, transactionManager,
                 Contract.GAS_PRICE, Contract.GAS_LIMIT);
 
         testErrorScenario();
@@ -258,7 +258,7 @@ public class ContractTest extends ManagedTransactionTester {
                 return appSendTransaction;
             }
         }));
-        when(nervosj.appSendRawTransaction(any(String.class)))
+        when(appChainj.appSendRawTransaction(any(String.class)))
                 .thenReturn((Request) rawTransactionRequest);
 
         testErrorScenario();
@@ -290,7 +290,7 @@ public class ContractTest extends ManagedTransactionTester {
                         return appGetTransactionReceipt;
                     }
                 }));
-        when(nervosj.appGetTransactionReceipt(TRANSACTION_HASH))
+        when(appChainj.appGetTransactionReceipt(TRANSACTION_HASH))
                 .thenReturn((Request) getTransactionReceiptRequest);
 
         testErrorScenario();
@@ -317,7 +317,7 @@ public class ContractTest extends ManagedTransactionTester {
 
         return TestContract.deployRemoteCall(
                 TestContract.class,
-                nervosj, SampleKeys.CREDENTIALS,
+                appChainj, SampleKeys.CREDENTIALS,
                 BigInteger.valueOf(100L), BigInteger.valueOf(100L),
                 "0xcafed00d", encodedConstructor, "0").send();
     }
@@ -330,22 +330,22 @@ public class ContractTest extends ManagedTransactionTester {
         Request<?, AppGetCode> ethGetCodeRequest = mock(Request.class);
         when(ethGetCodeRequest.send())
                 .thenReturn(ethGetCode);
-        when(nervosj.appGetCode(ADDRESS, DefaultBlockParameterName.LATEST))
+        when(appChainj.appGetCode(ADDRESS, DefaultBlockParameterName.LATEST))
                 .thenReturn((Request) ethGetCodeRequest);
     }
 
     private static class TestContract extends Contract {
         public TestContract(
-                String contractAddress, Nervosj nervosj, Credentials credentials,
+                String contractAddress, AppChainj appChainj, Credentials credentials,
                 BigInteger gasPrice, BigInteger gasLimit) {
-            super(TEST_CONTRACT_BINARY, contractAddress, nervosj, credentials, gasPrice, gasLimit);
+            super(TEST_CONTRACT_BINARY, contractAddress, appChainj, credentials, gasPrice, gasLimit);
         }
 
         public TestContract(
                 String contractAddress,
-                Nervosj nervosj, TransactionManager transactionManager,
+                AppChainj appChainj, TransactionManager transactionManager,
                 BigInteger gasPrice, BigInteger gasLimit) {
-            super(TEST_CONTRACT_BINARY, contractAddress, nervosj, transactionManager, gasPrice,
+            super(TEST_CONTRACT_BINARY, contractAddress, appChainj, transactionManager, gasPrice,
                     gasLimit);
         }
 

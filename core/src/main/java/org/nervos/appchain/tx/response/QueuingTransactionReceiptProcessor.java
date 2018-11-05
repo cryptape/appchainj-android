@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.methods.response.TransactionReceipt;
 import org.nervos.appchain.protocol.exceptions.TransactionException;
 import org.nervos.appchain.utils.Async;
@@ -27,9 +27,9 @@ public class QueuingTransactionReceiptProcessor extends TransactionReceiptProces
     private final BlockingQueue<RequestWrapper> pendingTransactions;
 
     public QueuingTransactionReceiptProcessor(
-            Nervosj nervosj, Callback callback,
+            AppChainj appChainj, Callback callback,
             int pollingAttemptsPerTxHash, long pollingFrequency) {
-        super(nervosj);
+        super(appChainj);
         this.scheduledExecutorService = Async.defaultExecutorService();
         this.callback = callback;
         this.pendingTransactions = new LinkedBlockingQueue<>();

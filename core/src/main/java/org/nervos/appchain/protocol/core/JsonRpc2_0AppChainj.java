@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjService;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjService;
 import org.nervos.appchain.protocol.core.methods.request.Call;
 import org.nervos.appchain.protocol.core.methods.response.AppAccounts;
 import org.nervos.appchain.protocol.core.methods.response.AppBlock;
@@ -37,26 +37,26 @@ import rx.Observable;
 /**
  * JSON-RPC 2.0 factory implementation.
  */
-public class JsonRpc2_0Web3j implements Nervosj {
+public class JsonRpc2_0AppChainj implements AppChainj {
 
     public static final int DEFAULT_BLOCK_TIME = 15 * 1000;
 
-    protected final NervosjService nervosjService;
+    protected final AppChainjService appChainjService;
     private final JsonRpc2_0Rx web3jRx;
     private final long blockTime;
 
-    public JsonRpc2_0Web3j(NervosjService nervosjService) {
-        this(nervosjService, DEFAULT_BLOCK_TIME, Async.defaultExecutorService());
+    public JsonRpc2_0AppChainj(AppChainjService appChainjService) {
+        this(appChainjService, DEFAULT_BLOCK_TIME, Async.defaultExecutorService());
     }
 
-    public JsonRpc2_0Web3j(NervosjService nervosjService, long pollingInterval) {
-        this(nervosjService, pollingInterval, Async.defaultExecutorService());
+    public JsonRpc2_0AppChainj(AppChainjService appChainjService, long pollingInterval) {
+        this(appChainjService, pollingInterval, Async.defaultExecutorService());
     }
 
-    public JsonRpc2_0Web3j(
-            NervosjService nervosjService, long pollingInterval,
+    public JsonRpc2_0AppChainj(
+            AppChainjService appChainjService, long pollingInterval,
             ScheduledExecutorService scheduledExecutorService) {
-        this.nervosjService = nervosjService;
+        this.appChainjService = appChainjService;
         this.web3jRx = new JsonRpc2_0Rx(this, scheduledExecutorService);
         this.blockTime = pollingInterval;
     }
@@ -66,7 +66,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "web3_clientVersion",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 Web3ClientVersion.class);
     }
 
@@ -75,7 +75,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "web3_sha3",
                 Arrays.asList(data),
-                nervosjService,
+                appChainjService,
                 Web3Sha3.class);
     }
 
@@ -85,7 +85,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "peerCount",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 NetPeerCount.class);
     }
 
@@ -98,7 +98,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "eth_accounts",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 AppAccounts.class);
     }
 
@@ -107,7 +107,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "eth_sign",
                 Arrays.asList(address, sha3HashOfDataToSign),
-                nervosjService,
+                appChainjService,
                 AppSign.class);
     }
 
@@ -116,7 +116,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getMetaData",
                 Arrays.asList(defaultBlockParameter.getValue()),
-                nervosjService,
+                appChainjService,
                 AppMetaData.class);
     }
 
@@ -125,7 +125,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "blockNumber",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 AppBlockNumber.class);
     }
 
@@ -135,7 +135,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getBalance",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
-                nervosjService,
+                appChainjService,
                 AppGetBalance.class);
     }
 
@@ -145,7 +145,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getAbi",
                 Arrays.asList(contractAddress, defaultBlockParameter.getValue()),
-                nervosjService,
+                appChainjService,
                 AppGetAbi.class);
     }
 
@@ -156,7 +156,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getTransactionCount",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
-                nervosjService,
+                appChainjService,
                 AppGetTransactionCount.class);
     }
 
@@ -167,7 +167,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getCode",
                 Arrays.asList(address, defaultBlockParameter.getValue()),
-                nervosjService,
+                appChainjService,
                 AppGetCode.class);
     }
 
@@ -190,7 +190,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "sendRawTransaction",
                 Arrays.asList(signedTransactionData),
-                nervosjService,
+                appChainjService,
                 AppSendTransaction.class);
     }
 
@@ -200,7 +200,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "call",
                 Arrays.asList(call, defaultBlockParameter),
-                nervosjService,
+                appChainjService,
                 AppCall.class);
     }
 
@@ -213,7 +213,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
                 Arrays.asList(
                         blockHash,
                         returnFullTransactionObjects),
-                nervosjService,
+                appChainjService,
                 AppBlock.class);
     }
 
@@ -226,7 +226,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
                 Arrays.asList(
                         defaultBlockParameter.getValue(),
                         returnFullTransactionObjects),
-                nervosjService,
+                appChainjService,
                 AppBlock.class);
     }
 
@@ -235,7 +235,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getTransaction",
                 Arrays.asList(transactionHash),
-                nervosjService,
+                appChainjService,
                 AppTransaction.class);
     }
 
@@ -244,7 +244,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getTransactionReceipt",
                 Arrays.asList(transactionHash),
-                nervosjService,
+                appChainjService,
                 AppGetTransactionReceipt.class);
     }
 
@@ -254,7 +254,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "newFilter",
                 Arrays.asList(appFilter),
-                nervosjService,
+                appChainjService,
                 AppFilter.class);
     }
 
@@ -263,7 +263,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "newBlockFilter",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 AppFilter.class);
     }
 
@@ -271,7 +271,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "eth_newPendingTransactionFilter",
                 Collections.<String>emptyList(),
-                nervosjService,
+                appChainjService,
                 AppFilter.class);
     }
 
@@ -280,7 +280,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "uninstallFilter",
                 Arrays.asList(Numeric.encodeQuantity(filterId)),
-                nervosjService,
+                appChainjService,
                 AppUninstallFilter.class);
     }
 
@@ -289,7 +289,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getFilterChanges",
                 Arrays.asList(Numeric.encodeQuantity(filterId)),
-                nervosjService,
+                appChainjService,
                 AppLog.class);
     }
 
@@ -298,7 +298,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getFilterLogs",
                 Arrays.asList(Numeric.encodeQuantity(filterId)),
-                nervosjService,
+                appChainjService,
                 AppLog.class);
     }
 
@@ -308,7 +308,7 @@ public class JsonRpc2_0Web3j implements Nervosj {
         return new Request<>(
                 "getLogs",
                 Arrays.asList(appFilter),
-                nervosjService,
+                appChainjService,
                 AppLog.class);
     }
 

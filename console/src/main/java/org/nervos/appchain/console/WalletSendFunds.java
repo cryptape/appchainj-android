@@ -8,8 +8,8 @@ import java.util.concurrent.Future;
 
 import org.nervos.appchain.crypto.Credentials;
 import org.nervos.appchain.crypto.WalletUtils;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.methods.response.TransactionReceipt;
 import org.nervos.appchain.protocol.core.methods.response.Web3ClientVersion;
 import org.nervos.appchain.protocol.exceptions.TransactionException;
@@ -44,7 +44,7 @@ public class WalletSendFunds extends WalletManager {
             exitError("Invalid destination address specified");
         }
 
-        Nervosj nervosj = getEthereumClient();
+        AppChainj appChainj = getEthereumClient();
 
         BigDecimal amountToTransfer = getAmountToTransfer();
         Convert.Unit transferUnit = getTransferUnit();
@@ -53,7 +53,7 @@ public class WalletSendFunds extends WalletManager {
         confirmTransfer(amountToTransfer, transferUnit, amountInWei, destinationAddress);
 
         TransactionReceipt transactionReceipt = performTransfer(
-                nervosj, destinationAddress, credentials, amountInWei);
+                appChainj, destinationAddress, credentials, amountInWei);
 
         console.printf("Funds have been successfully transferred from %s to %s%n"
                         + "Transaction hash: %s%nMined block number: %s%n",
@@ -104,13 +104,13 @@ public class WalletSendFunds extends WalletManager {
     }
 
     private TransactionReceipt performTransfer(
-            Nervosj nervosj, String destinationAddress, Credentials credentials,
+            AppChainj appChainj, String destinationAddress, Credentials credentials,
             BigDecimal amountInWei) {
 
         console.printf("Commencing transfer (this may take a few minutes) ");
         try {
             Future<TransactionReceipt> future = Transfer.sendFunds(
-                    nervosj, credentials, destinationAddress, amountInWei, Convert.Unit.WEI)
+                    appChainj, credentials, destinationAddress, amountInWei, Convert.Unit.WEI)
                     .sendAsync();
 
             while (!future.isDone()) {
@@ -125,30 +125,30 @@ public class WalletSendFunds extends WalletManager {
         throw new RuntimeException("Application exit failure");
     }
 
-    private Nervosj getEthereumClient() {
+    private AppChainj getEthereumClient() {
         String clientAddress = console.readLine(
                 "Please confirm address of running Ethereum client you wish to send "
                 + "the transfer request to [" + HttpService.DEFAULT_URL + "]: ")
                 .trim();
 
-        Nervosj nervosj;
+        AppChainj appChainj;
         if (clientAddress.equals("")) {
-            nervosj = NervosjFactory.build(new HttpService());
+            appChainj = AppChainjFactory.build(new HttpService());
         } else if (clientAddress.contains("infura.io")) {
-            nervosj = NervosjFactory.build(new InfuraHttpService(clientAddress));
+            appChainj = AppChainjFactory.build(new InfuraHttpService(clientAddress));
         } else {
-            nervosj = NervosjFactory.build(new HttpService(clientAddress));
+            appChainj = AppChainjFactory.build(new HttpService(clientAddress));
         }
 
         try {
-            Web3ClientVersion web3ClientVersion = nervosj.web3ClientVersion().sendAsync().get();
+            Web3ClientVersion web3ClientVersion = appChainj.web3ClientVersion().sendAsync().get();
             if (web3ClientVersion.hasError()) {
                 exitError("Unable to process response from client: "
                         + web3ClientVersion.getError());
             } else {
                 console.printf("Connected successfully to client: %s%n",
                         web3ClientVersion.getWeb3ClientVersion());
-                return nervosj;
+                return appChainj;
             }
         } catch (InterruptedException | ExecutionException e) {
             exitError("Problem encountered verifying client: " + e.getMessage());

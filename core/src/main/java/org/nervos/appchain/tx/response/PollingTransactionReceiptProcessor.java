@@ -2,7 +2,7 @@ package org.nervos.appchain.tx.response;
 
 import java.io.IOException;
 
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.methods.response.TransactionReceipt;
 import org.nervos.appchain.protocol.exceptions.TransactionException;
 
@@ -14,8 +14,8 @@ public class PollingTransactionReceiptProcessor extends TransactionReceiptProces
     private final long sleepDuration;
     private final int attempts;
 
-    public PollingTransactionReceiptProcessor(Nervosj nervosj, long sleepDuration, int attempts) {
-        super(nervosj);
+    public PollingTransactionReceiptProcessor(AppChainj appChainj, long sleepDuration, int attempts) {
+        super(appChainj);
         this.sleepDuration = sleepDuration;
         this.attempts = attempts;
     }

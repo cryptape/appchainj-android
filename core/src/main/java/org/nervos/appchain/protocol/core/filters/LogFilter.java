@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.Request;
 import org.nervos.appchain.protocol.core.methods.request.AppFilter;
 import org.nervos.appchain.protocol.core.methods.response.AppLog;
@@ -18,16 +18,16 @@ public class LogFilter extends Filter<Log> {
     private final AppFilter ethFilter;
 
     public LogFilter(
-            Nervosj nervosj, Callback<Log> callback,
+            AppChainj appChainj, Callback<Log> callback,
             AppFilter ethFilter) {
-        super(nervosj, callback);
+        super(appChainj, callback);
         this.ethFilter = ethFilter;
     }
 
 
     @Override
     org.nervos.appchain.protocol.core.methods.response.AppFilter sendRequest() throws IOException {
-        return nervosj.appNewFilter(ethFilter).send();
+        return appChainj.appNewFilter(ethFilter).send();
     }
 
     @Override
@@ -45,6 +45,6 @@ public class LogFilter extends Filter<Log> {
 
     @Override
     protected Request<?, AppLog> getFilterLogs(BigInteger filterId) {
-        return nervosj.appGetFilterLogs(filterId);
+        return appChainj.appGetFilterLogs(filterId);
     }
 }

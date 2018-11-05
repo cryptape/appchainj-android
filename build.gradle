@@ -36,7 +36,7 @@ apply plugin: 'idea'
 apply plugin: 'io.codearte.nexus-staging'
 apply plugin: 'jacoco'
 
-description 'nervosj base project'
+description 'appchainj base project'
 
 allprojects {
 
@@ -164,14 +164,14 @@ configure(subprojects.findAll {it.name != 'integration-tests'}) {
                 }
 
                 pom.project {
-                    name 'nervosj'
+                    name 'appchainj'
                     packaging 'jar'
                     description project.description
-                    url 'https://docs.nervos.org/nervosj/#/'
+                    url 'https://docs.nervos.org/appchainj/#/'
 
                     scm {
-                        connection 'scm:git:https://github.com/cryptape/nervosj.git'
-                        url 'https://github.com/cryptape/nervosj.git'
+                        connection 'scm:git:https://github.com/cryptape/appchainj.git'
+                        url 'https://github.com/cryptape/appchainj.git'
                     }
 
                     licenses {
@@ -209,9 +209,9 @@ configure(subprojects.findAll {it.name != 'integration-tests'}) {
             desc = project.description
             userOrg = 'cryptape'
             licenses = ['Apache-2.0']
-            issueTrackerUrl = 'https://github.com/cryptape/nervosj/issues'
-            vcsUrl = 'https://github.com/cryptape/nervosj.git'
-            websiteUrl = 'https://docs.nervos.org/nervosj/#/'
+            issueTrackerUrl = 'https://github.com/cryptape/appchainj-android/issues'
+            vcsUrl = 'https://github.com/cryptape/appchainj-android.git'
+            websiteUrl = 'https://github.com/cryptape/appchainj-android/#/'
             publicDownloadNumbers = true
         }
     }

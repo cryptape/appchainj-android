@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.nervos.appchain.protocol.NervosjService;
+import org.nervos.appchain.protocol.AppChainjService;
 import rx.Observable;
 
 public class Request<S, T extends Response> {
@@ -17,7 +17,7 @@ public class Request<S, T extends Response> {
     private List<S> params;
     private long id;
 
-    private NervosjService nervosjService;
+    private AppChainjService appChainjService;
 
     // Unfortunately require an instance of the type too, see
     // http://stackoverflow.com/a/3437930/3211687
@@ -27,11 +27,11 @@ public class Request<S, T extends Response> {
     }
 
     public Request(String method, List<S> params,
-                   NervosjService nervosjService, Class<T> type) {
+                   AppChainjService appChainjService, Class<T> type) {
         this.method = method;
         this.params = params;
         this.id = nextId.getAndIncrement();
-        this.nervosjService = nervosjService;
+        this.appChainjService = appChainjService;
         this.responseType = type;
     }
 
@@ -68,11 +68,11 @@ public class Request<S, T extends Response> {
     }
 
     public T send() throws IOException {
-        return nervosjService.send(this, responseType);
+        return appChainjService.send(this, responseType);
     }
 
     public Future<T> sendAsync() {
-        return  nervosjService.sendAsync(this, responseType);
+        return  appChainjService.sendAsync(this, responseType);
     }
 
     public Observable<T> observable() {

@@ -36,7 +36,7 @@ import org.nervos.appchain.abi.datatypes.StaticArray;
 import org.nervos.appchain.abi.datatypes.Type;
 import org.nervos.appchain.abi.datatypes.Utf8String;
 import org.nervos.appchain.abi.datatypes.generated.AbiTypes;
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.ObjectMapperFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameter;
 import org.nervos.appchain.protocol.core.RemoteCall;
@@ -57,7 +57,7 @@ import rx.functions.Func1;
 public class SolidityFunctionWrapper extends Generator {
 
     private static final String BINARY = "BINARY";
-    private static final String WEB3J = "nervosj";
+    private static final String WEB3J = "appchainj";
     private static final String CREDENTIALS = "credentials";
     private static final String TRANSACTION_MANAGER = "transactionManager";
     private static final String INITIAL_VALUE = "initialWeiValue";
@@ -79,7 +79,7 @@ public class SolidityFunctionWrapper extends Generator {
     private static final String CODEGEN_WARNING = "<p>Auto generated code.\n"
             + "<p><strong>Do not modify!</strong>\n"
             + "<p>Please use the "
-            + "<a href=\"https://github.com/cryptape/nervosj/tree/master/codegen\">"
+            + "<a href=\"https://github.com/cryptape/appchainj-android/tree/master/codegen\">"
             + "codegen module</a> to update.\n";
 
     private final boolean useNativeJavaTypes;
@@ -139,7 +139,7 @@ public class SolidityFunctionWrapper extends Generator {
 
             classBuilder.addStaticBlock(staticInit.build());
 
-            // See org.nervosj.tx.Contract#getStaticDeployedAddress(String)
+            // See org.appchainj.tx.Contract#getStaticDeployedAddress(String)
             MethodSpec getAddress = MethodSpec
                     .methodBuilder("getStaticDeployedAddress")
                     .addModifiers(Modifier.PROTECTED)
@@ -173,7 +173,7 @@ public class SolidityFunctionWrapper extends Generator {
 
     private TypeSpec.Builder createClassBuilder(String className, String binary) {
 
-        String javadoc = CODEGEN_WARNING + getWeb3jVersion();
+        String javadoc = CODEGEN_WARNING + getAppChainjVersion();
 
         return TypeSpec.classBuilder(className)
                 .addModifiers(Modifier.PUBLIC)
@@ -182,7 +182,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .addField(createBinaryDefinition(binary));
     }
 
-    private String getWeb3jVersion() {
+    private String getAppChainjVersion() {
         String version;
 
         try {
@@ -192,7 +192,7 @@ public class SolidityFunctionWrapper extends Generator {
         } catch (IOException | NullPointerException e) {
             version = Version.DEFAULT;
         }
-        return "\n<p>Generated with nervosj version " + version + ".\n";
+        return "\n<p>Generated with appchainj version " + version + ".\n";
     }
 
     private FieldSpec createBinaryDefinition(String binary) {
@@ -257,7 +257,7 @@ public class SolidityFunctionWrapper extends Generator {
         return MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PROTECTED)
                 .addParameter(String.class, CONTRACT_ADDRESS)
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addParameter(BigInteger.class, GAS_PRICE)
                 .addParameter(BigInteger.class, GAS_LIMIT)
@@ -270,7 +270,7 @@ public class SolidityFunctionWrapper extends Generator {
         return MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PROTECTED)
                 .addParameter(String.class, CONTRACT_ADDRESS)
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addStatement("super($N, $N, $N, $N)",
                         BINARY, CONTRACT_ADDRESS, WEB3J, authName)
@@ -379,7 +379,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(
                         buildRemoteCall(TypeVariableName.get(className, Type.class)))
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addParameter(BigInteger.class, GAS_PRICE)
                 .addParameter(BigInteger.class, GAS_LIMIT);
@@ -397,7 +397,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(
                         buildRemoteCall(TypeVariableName.get(className, Type.class)))
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addParameter(Long.class, QUOTA)
                 .addParameter(BigInteger.class, NONCE)
@@ -414,7 +414,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(TypeVariableName.get(className, Type.class))
                 .addParameter(String.class, CONTRACT_ADDRESS)
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addParameter(BigInteger.class, GAS_PRICE)
                 .addParameter(BigInteger.class, GAS_LIMIT)
@@ -429,7 +429,7 @@ public class SolidityFunctionWrapper extends Generator {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(TypeVariableName.get(className, Type.class))
                 .addParameter(String.class, CONTRACT_ADDRESS)
-                .addParameter(Nervosj.class, WEB3J)
+                .addParameter(AppChainj.class, WEB3J)
                 .addParameter(authType, authName)
                 .addStatement("return new $L($L, $L, $L)", className,
                         CONTRACT_ADDRESS, WEB3J, authName)
@@ -792,7 +792,7 @@ public class SolidityFunctionWrapper extends Generator {
         observableMethodBuilder.addStatement("$1T filter = new $1T($2L, $3L, "
                 + "getContractAddress())", AppFilter.class, START_BLOCK, END_BLOCK)
                 .addStatement("filter.addSingleTopic($T.encode(event))", EventEncoder.class)
-                .addStatement("return nervosj.appLogObservable(filter).map($L)", converter);
+                .addStatement("return appChainj.appLogObservable(filter).map($L)", converter);
 
         return observableMethodBuilder
                 .build();

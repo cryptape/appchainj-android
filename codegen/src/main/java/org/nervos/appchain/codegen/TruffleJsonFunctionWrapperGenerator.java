@@ -122,8 +122,8 @@ public class TruffleJsonFunctionWrapperGenerator extends FunctionWrapperGenerato
             System.out.printf("Generating " + basePackageName + "." + className + " ... ");
             Map<String, String> addresses = new HashMap<>();
             if (c.networks != null && !c.networks.isEmpty()) {
-                for(Map.Entry<String, NetworkInfo> network : c.networks.entrySet()) {
-                    if(network.getValue() != null & network.getValue().getAddress() != null) {
+                for (Map.Entry<String, NetworkInfo> network : c.networks.entrySet()) {
+                    if (network.getValue() != null & network.getValue().getAddress() != null) {
                         addresses.put(network.getKey(), network.getValue().getAddress());
                     }
                 }

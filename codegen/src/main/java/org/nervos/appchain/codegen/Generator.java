@@ -21,9 +21,9 @@ class Generator {
 
     static String buildWarning(Class cls) {
         return "Auto generated code.\n"
-                + "<p><strong>Do not modifiy!</strong>\n"
+                + "<p><strong>Do not modify!</strong>\n"
                 + "<p>Please use " + cls.getName() + " in the \n"
-                + "<a href=\"https://github.com/nervosj/nervosj/tree/master/codegen\">"
+                + "<a href=\"https://github.com/cryptape/appchainj-android/tree/master/codegen\">"
                 + "codegen module</a> to update.\n";
     }
 }

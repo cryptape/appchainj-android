@@ -3,12 +3,12 @@ Account封装了TransactionManager（在Cita中使用的是CitaTransactionManage
 [deploy](Account?id=appsendtransaction-deployfile-contractfile-biginteger-nonce-long-quota-int-version-int-chainid-string-value)  
 [callContract](Account?id=object-callcontractstring-contractaddress-string-funcname-biginteger-nonce-long-quota-int-version-int-chainid-string-value-object-args)  
 
-#### `Account(String privateKey, Nervosj service)`
+#### `Account(String privateKey, AppChainj service)`
 实例化Account对象。   
 
 **参数**  
 privateKey - 发送交易地址的私钥  
-service - Nervosj实例  
+service - AppChainj实例  
 
 **返回值**  
 Account  
@@ -16,7 +16,7 @@ Account
 **示例**  
 ```
 String privateKey = "{private key}";
-Nervosj service  = Nervosj.build(new HttpService("127.0.0.1"));
+AppChainj service  = AppChainj.build(new HttpService("127.0.0.1"));
 Account account = new Account(privateKey, service);
 ```
 #### `AppSendTransaction deploy(File contractFile, BigInteger nonce, long quota, int version, int chainId, String value)`
@@ -36,7 +36,7 @@ AppSendTransaction
 **示例**  
 ```
 String privateKey = "{private key}";
-Nervosj service  = Nervosj.build(new HttpService("127.0.0.1"));
+AppChainj service  = AppChainj.build(new HttpService("127.0.0.1"));
 Account account = new Account(privateKey, service);
 AppSendTransaction appSendTransaction = account.deploy(new File(path), randomNonce(), quota, version, chainId, value);
 ```
@@ -59,7 +59,7 @@ Object
 **示例**  
 ```
 String privateKey = "{private key}";
-Nervosj service  = Nervosj.build(new HttpService("127.0.0.1"));
+AppChainj service  = AppChainj.build(new HttpService("127.0.0.1"));
 Account account = new Account(privateKey, service);
 AppSendTransaction appSendTransaction = (AppSendTransaction) account.callContract(contractAddress, transfer, randomNonce(), quota, version, chainId, value, toAddress, amount);
 ```

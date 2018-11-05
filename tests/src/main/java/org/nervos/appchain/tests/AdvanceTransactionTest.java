@@ -13,8 +13,8 @@ import org.nervos.appchain.abi.TypeReference;
 import org.nervos.appchain.abi.datatypes.Function;
 import org.nervos.appchain.abi.datatypes.Type;
 import org.nervos.appchain.abi.datatypes.generated.Uint256;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.methods.request.Call;
 import org.nervos.appchain.protocol.core.methods.request.Transaction;
@@ -25,14 +25,14 @@ public class AdvanceTransactionTest {
     static final String configPath = "tests/src/main/resources/config.properties";
 
     static Properties props;
-    static Nervosj service;
+    static AppChainj service;
     static String senderPrivateKey;
     static int version;
     static int chainId;
 
     static {
         props = Config.load(configPath);
-        service = NervosjFactory.build(new HttpService(props.getProperty(Config.TEST_NET_ADDR)));
+        service = AppChainjFactory.build(new HttpService(props.getProperty(Config.TEST_NET_ADDR)));
         senderPrivateKey = props.getProperty(Config.SENDER_PRIVATE_KEY);
         version = Integer.parseInt(props.getProperty(Config.VERSION));
         chainId = Integer.parseInt(props.getProperty(Config.CHAIN_ID));

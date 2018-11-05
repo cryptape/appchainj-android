@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.util.concurrent.Future;
 
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.methods.request.Transaction;
 import org.nervos.appchain.protocol.core.methods.response.AppGetTransactionCount;
@@ -13,25 +13,25 @@ import org.nervos.appchain.protocol.core.methods.response.AppSendTransaction;
 
 public class CitaTransactionManager extends TransactionManager {
 
-    private final Nervosj nervosj;
+    private final AppChainj appChainj;
     final Credentials credentials;
 
-    public CitaTransactionManager(Nervosj nervosj, Credentials credentials) {
-        super(nervosj, credentials.getAddress());
-        this.nervosj = nervosj;
+    public CitaTransactionManager(AppChainj appChainj, Credentials credentials) {
+        super(appChainj, credentials.getAddress());
+        this.appChainj = appChainj;
         this.credentials = credentials;
 
     }
 
     public CitaTransactionManager(
-            Nervosj nervosj, Credentials credentials, int attempts, int sleepDuration) {
-        super(nervosj, attempts, sleepDuration, credentials.getAddress());
-        this.nervosj = nervosj;
+            AppChainj appChainj, Credentials credentials, int attempts, int sleepDuration) {
+        super(appChainj, attempts, sleepDuration, credentials.getAddress());
+        this.appChainj = appChainj;
         this.credentials = credentials;
     }
 
     BigInteger getNonce() throws IOException {
-        AppGetTransactionCount ethGetTransactionCount = nervosj.appGetTransactionCount(
+        AppGetTransactionCount ethGetTransactionCount = appChainj.appGetTransactionCount(
                 credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
 
         return ethGetTransactionCount.getTransactionCount();
@@ -53,7 +53,7 @@ public class CitaTransactionManager extends TransactionManager {
         Transaction transaction = new Transaction(
                 to, nonce, quota, validUntilBlock,
                 version, chainId, value, data);
-        return nervosj.appSendRawTransaction(transaction.sign(credentials)).send();
+        return appChainj.appSendRawTransaction(transaction.sign(credentials)).send();
     }
 
     // adapt to cita
@@ -63,7 +63,7 @@ public class CitaTransactionManager extends TransactionManager {
         Transaction transaction = new Transaction(
                 to, nonce, quota, validUntilBlock,
                 version, chainId, value, data);
-        return nervosj.appSendRawTransaction(transaction.sign(credentials)).sendAsync();
+        return appChainj.appSendRawTransaction(transaction.sign(credentials)).sendAsync();
     }
 
     @Override

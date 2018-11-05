@@ -24,7 +24,7 @@ Transaction实例
 
 **示例**  
 ```
-Nervosj service = Nervosj.build(new HttpService("127.0.0.1"));
+AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 String to = "{address to which the tx is sent}";
 BigInteger nonce = BigInteger.valueOf(Math.abs(this.random.nextLong()));
 long quota = 9999;
@@ -52,8 +52,8 @@ Transaction实例
 
 **示例**  
 ```
-//create new nervosj service
-Nervosj service = Nervosj.build(new HttpService("127.0.0.1"));
+//create new appchainj service
+AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 
 //settings initiation
 BigInteger nonce = BigInteger.valueOf(Math.abs(this.random.nextLong()));
@@ -87,8 +87,8 @@ Transaction实例
 
 **示例**  
 ```
-//create new nervosj service
-Nervosj service = Nervosj.build(new HttpService("127.0.0.1"));
+//create new appchainj service
+AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 
 //settings initiation
 String to = "{smart contract address}";
@@ -105,11 +105,11 @@ Transaction txToCallContract = Transction.createFunctionCallTransaction(to, nonc
 String signedTx = txToDeployContract.sign(this.config.getPrivateKey(), false, false);
 AppSendTransaction appSendTx = service.sendRawTransaction(signedTx);
 ```
-#### `CitaTransactionManager(Nervosj nervosj, Credentials credentials)`
-CitaTransactionManager继承自TransactionManager，进行了Nervos适配。由于在Nervos appchain中，没有支持sendTransaction()方法，所以私钥信息需要在实例化  CitaTransactionManager时传入，否则无法对交易签名。  
+#### `CitaTransactionManager(AppChainj appChainj, Credentials credentials)`
+CitaTransactionManager继承自TransactionManager，进行了AppChain适配。由于在AppChain appchain中，没有支持sendTransaction()方法，所以私钥信息需要在实例化  CitaTransactionManager时传入，否则无法对交易签名。  
 
 **参数**  
-nervosj - Nervosj实例  
+appChainj - AppChainj实例  
 credentials - 发起交易账户的credential  
 
 **返回值**  
@@ -118,7 +118,7 @@ CitaTransctionManager实例
 **示例**  
 ```
 Credentials credentials = Credentials.create(privateKey);
-Nervosj service = Nervosj.build(new HttpService("127.0.0.1"));
+AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 CitaTransactionManager transactionManager = new CitaTransactionManager(service, credentials);
 ```
 #### `AppSendTransaction sendTransaction(String to, String data, long quota, BigInteger nonce, long validUntilBlock, int version, int chainId, String value)`

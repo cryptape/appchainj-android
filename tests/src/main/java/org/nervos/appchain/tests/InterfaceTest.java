@@ -16,8 +16,8 @@ import org.nervos.appchain.abi.datatypes.Type;
 import org.nervos.appchain.abi.datatypes.Uint;
 import org.nervos.appchain.abi.datatypes.generated.Uint256;
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameter;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterNumber;
@@ -42,7 +42,7 @@ public class InterfaceTest {
     private static String testNetAddr;
     private static int version;
     private static int chainId;
-    private static Nervosj service;
+    private static AppChainj service;
     private static String value;
     private static String privateKey;
     private static Properties props;
@@ -59,7 +59,7 @@ public class InterfaceTest {
         }
         testNetAddr = props.getProperty(Config.TEST_NET_ADDR);
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetAddr));
+        service = AppChainjFactory.build(new HttpService(testNetAddr));
         privateKey = props.getProperty(Config.SENDER_PRIVATE_KEY);
         quota = Long.parseLong(props.getProperty(Config.DEFAULT_QUOTA_Deployment));
         version = Integer.parseInt(props.getProperty(Config.VERSION));

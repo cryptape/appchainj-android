@@ -1,9 +1,9 @@
-# nervosj
-[![Build Status](https://travis-ci.org/cryptape/nervosj.svg?branch=android)](https://travis-ci.org/cryptape/nervosj)
+# appchainj
+[![Build Status](https://travis-ci.org/cryptape/nervosj.svg?branch=android)](https://travis-ci.org/cryptape/appchainj-android)
 ## Introduction
-nervosj, originally adapted from Ethereum Web3j, is a Java library for working with Smart Contract and integrating with clients which include Android Applications on Nervos network.
+appchainj, originally adapted from Ethereum Web3j, is a Java library for working with Smart Contract and integrating with clients which include Android Applications on AppChain network.
 ## Features
-- Complete implementation of Nervos JSON-RPC API over HTTP.
+- Complete implementation of AppChain JSON-RPC API over HTTP.
 - Auto-generation of Java smart contract wrappers to create, deploy, transact with and call smart contracts from native Java code (Solidity and Truffle definition formats supported).
 - Comprehensive integration tests demonstrating a number of the above scenarios
 - Android compatible
@@ -15,26 +15,26 @@ Java 8
 Gradle 4.3  
 
 ### Install
-`git clone https://github.com/cryptape/nervosj.git`  
-`gradle shadowJar` to generate a jar file for nervosj.  
+`git clone https://github.com/cryptape/appchainj-android.git`  
+`gradle shadowJar` to generate a jar file for appchainj.  
 ### Test net
-Use Nervos AppChain test net (recommended):
+Use AppChain AppChain test net (recommended):
 http://121.196.200.225:1337 is provided as a testnet for tests.  
 
-Or build your own Nervos AppChain net:  
-Please find more information in [how to set up client in your local](https://docs.nervos.org/Nervos-AppChain-Docs/#/quick-start/deploy-appchain).  
+Or build your own AppChain AppChain net:  
+Please find more information in [how to set up client in your local](https://docs.nervos.org/AppChain-AppChain-Docs/#/quick-start/deploy-appchain).  
 
 ### Get started
 
 #### Integrate Android
 
-An Android Application can communicate easily with AppChain through nervosj. You can get all jar files of every library through command `gradle shadowJar`, but abi, core, crypto, protobuf and utils will be only needed by Android.  
+An Android Application can communicate easily with AppChain through appchainj-android. You can get all jar files of every library through command `gradle shadowJar`, but abi, core, crypto, protobuf and utils will be only needed by Android.  
 
-We will upload these jar files to maven and gradle server as soon as possible so that you can integrate nervosj by gradle dependent in build.gradle file.
+We will upload these jar files to maven and gradle server as soon as possible so that you can integrate appchainj-android by gradle dependent in build.gradle file.
 
 #### Deploy smart contract
-Similar as Ethereum, smart contracts are deployed in Nervos AppChain network by sending transactions. Nervos AppChain transaction is defined in [Transaction.java](https://github.com/cryptape/nervosj/blob/master/core/src/main/java/org/nervosj/protocol/core/methods/request/Transaction.java).  
-In Nervos transaction, there are 3 special parameters:  
+Similar as Ethereum, smart contracts are deployed in AppChain AppChain network by sending transactions. AppChain AppChain transaction is defined in [Transaction.java](https://github.com/cryptape/appchainj-android/blob/master/core/src/main/java/org/appchainj/protocol/core/methods/request/Transaction.java).  
+In AppChain transaction, there are 3 special parameters:  
 - nonce: generated randomly or depend on specific logic to avoid replay attack.
 - quota: transaction execution fee for operation, like gasPrice * gasLimit in Ethereum.
 - valid_until_block: timeout mechanism which should be set in (currentHeight, currentHeight + 100]. Transaction will be discarded beyond `valid_until_block`.
@@ -55,16 +55,16 @@ long quota = 1000000;
 Transaction tx = Transaction.createContractTransaction(nonce, quota, validUntilBlock, contractCode);
 ```
 
-Sign the transaction with sender's private key and send it to Nervos AppChain net.
+Sign the transaction with sender's private key and send it to AppChain AppChain net.
 ```java
 String rawTx = tx.sign(privateKey);
-Nervosj service = Nervosj.build(new HttpService(ipAddr + ":" + port));
+AppChainj service = AppChainj.build(new HttpService(ipAddr + ":" + port));
 EthSendTransaction result = service.appSendRawTransaction(rawTx).send();
 ```
-Please be attention that all transactions need to be signed since Nervos AppChain only supports method `sendRawTransaction` rather than `sendTransaction`.  
+Please be attention that all transactions need to be signed since AppChain AppChain only supports method `sendRawTransaction` rather than `sendTransaction`.  
 
 #### Call functions in smart contract
-In Nervos AppChain smart contract call, like contract deployment, a transaction needs to be created with 2 more parameters:
+In AppChain AppChain smart contract call, like contract deployment, a transaction needs to be created with 2 more parameters:
 - contract address: address of the deployed contract.
 - functionCallData: ABI of function and parameter.
 
@@ -80,10 +80,10 @@ Transaction tx = Transaction.createFunctionCallTransaction(contractAddress, nonc
 String rawTx = tx.sign(privateKey);
 String txHash =  service.ethSendRawTransaction(rawTx).send().getSendTransactionResult().getHash();
 ```
-Please check [TokenTransactionTest.java](https://github.com/cryptape/nervosj/blob/master/examples/src/main/java/org/nervos/appchain/tests/TokenTransactionTest.java) to see a complete example for smart contract deployment and function invocation.  
+Please check [TokenTransactionTest.java](https://github.com/cryptape/appchainj-android/blob/master/examples/src/main/java/org/nervos/appchain/tests/TokenTransactionTest.java) to see a complete example for smart contract deployment and function invocation.  
 
-### Working with smart contract with nervosj wrapper
-Besides interacting with smart contracts by sending transactions with binary code, nervosj provides a tool to help to convert solidity contract to a Java class from which smart contracts can be deployed and called.  
+### Working with smart contract with appchainj wrapper
+Besides interacting with smart contracts by sending transactions with binary code, appchainj provides a tool to help to convert solidity contract to a Java class from which smart contracts can be deployed and called.  
 
 Run `gradle shadowJar` to generate jars so that the tool can be found under `console/build/libs`. Name of the tool is `console-version-all.jar`.  
 
@@ -91,15 +91,15 @@ Usage of console-version-all is shown below:
 ```shell
 $ java -jar console-0.17-all.jar solidity generate [--javaTypes|--solidityTypes] /path/to/{smart-contract}.bin /path/to/{smart-contract}.abi -o /path/to/src/main/java -p {package-path}
 ```
-Example generate Java class from `Token.sol`, `Token.bin` and `Token.abi` under `nervosj/tests/src/main/resources`:  
+Example generate Java class from `Token.sol`, `Token.bin` and `Token.abi` under `appchainj/tests/src/main/resources`:  
 ```shell
 java -jar console/build/libs/console-0.17-all.jar solidity generate tests/src/main/resources/Token.bin tests/src/main/resources/Token.abi -o tests/src/main/java/ -p org.nervos.appchain.tests
 ```
-`Token.java` will be created from commands above and class `Token` can be used with CitaTransactionManager to deploy and call smart contract `Token`. Please be attention that [CitaTransactionManager](https://github.com/cryptape/nervoj/blob/master/core/src/main/java/org/nervos/appchain/tx/CitaTransactionManager.java) is supposed to be used as TransactionManager for transaction creation in Nervos AppChain network.  
-Please check [TokenCodegenTest.java](https://github.com/cryptape/nervosj/blob/master/benchmark/src/main/java/org/nervos/appchain/tests/TokenCodegenTest.java) for a complete example.  
+`Token.java` will be created from commands above and class `Token` can be used with CitaTransactionManager to deploy and call smart contract `Token`. Please be attention that [CitaTransactionManager](https://github.com/cryptape/nervoj/blob/master/core/src/main/java/org/nervos/appchain/tx/CitaTransactionManager.java) is supposed to be used as TransactionManager for transaction creation in AppChain AppChain network.  
+Please check [TokenCodegenTest.java](https://github.com/cryptape/appchainj-android/blob/master/benchmark/src/main/java/org/nervos/appchain/tests/TokenCodegenTest.java) for a complete example.  
 
-### Working with smart contract with nervosj Account
-nervosj provides interface [Account](https://github.com/cryptape/nervosj/blob/master/core/src/main/java/org/nervos/appchain/protocol/account/Account.java) for smart contract manipulations. With parameters of smart contract's name, address, method and method's arguments, smart contracts can be deployed and called through the interface without exposing extra java, bin or abi file to developers.  
+### Working with smart contract with appchainj Account
+appchainj provides interface [Account](https://github.com/cryptape/appchainj-android/blob/master/core/src/main/java/org/nervos/appchain/protocol/account/Account.java) for smart contract manipulations. With parameters of smart contract's name, address, method and method's arguments, smart contracts can be deployed and called through the interface without exposing extra java, bin or abi file to developers.  
 
 Method of smart contract deployment:  
 ```java
@@ -115,5 +115,5 @@ public Object callContract(String contractAddress, String funcName, BigInteger n
 //function is a encapsulation of method including name, argument datatypes, return type and other info.
 public Object callContract(String contractAddress, AbiDefinition functionAbi, BigInteger nonce, BigInteger quota, Object... args)
 ```
-While contract file is required when first deploy the contract, nervosj can get the abi file according to address when call methods in deployed contract.  
-Please find complete code in [TokenAccountTest](https://github.com/cryptape/nervosj/blob/master/tests/src/main/java/org/nervos/appchain/tests/TokenAccountTest.java).
+While contract file is required when first deploy the contract, appchainj can get the abi file according to address when call methods in deployed contract.  
+Please find complete code in [TokenAccountTest](https://github.com/cryptape/appchainj-android/blob/master/tests/src/main/java/org/nervos/appchain/tests/TokenAccountTest.java).

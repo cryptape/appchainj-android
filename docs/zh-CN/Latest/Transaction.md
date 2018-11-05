@@ -1,12 +1,12 @@
 Transction定义在core.request中，用于将交易数据封装并且签名（如果需要），交易数据或者签名后的交易数据被appCall()或者appSendRawTransaction()所使用进行合约的调用或者部署。  
-[Transaction](Transaction?id=transactionstring-to-biginteger-nonce-long-quota-long-valid_until_block-int-version-int-chainid-string-value-string-data)  
-[createContractTransaction](Transaction?id=createcontracttransactionbiginteger-nonce-long-quota-long-valid_until_block-int-version-int-chainid-string-value-string-init)  
-[createFunctionCallTransaction](Transaction?id=createfunctioncalltransactionstring-to-biginteger-nonce-long-quota-long-valid_until_block-int-version-int-chainid-string-value-string-data)  
-[CitaTransactionManager](Transaction?id=citatransactionmanagernervosj-nervosj-credentials-credentials)  
-[sendTransaction](Transaction?id=appsendtransaction-sendtransactionstring-to-string-data-long-quota-biginteger-nonce-long-validuntilblock-int-version-int-chainid-string-value)  
-[sendTransactionAsync](Transaction?id=completablefuture-sendtransactionasyncstring-to-string-data-long-quota-biginteger-nonce-long-validuntilblock-int-version-int-chainid-string-value)  
+[Transaction](#transaction)  
+[createContractTransaction](#createcontracttransaction)  
+[createFunctionCallTransaction](#createfunctioncalltransaction)  
+[CitaTransactionManager](#citatransactionmanager)  
+[sendTransaction](#appsendtransaction)  
+[sendTransactionAsync](#sendtransactionasync)  
 
-#### `Transaction(String to, BigInteger nonce, long quota, long valid_until_block, int version, int chainId, String value, String data)`
+#### `Transaction`
 根据参数新建一个交易。  
 
 **参数**  
@@ -35,7 +35,7 @@ String value = "100000000";
 String init = "{encoded abi}";
 Transaction tx = Transction.createContractTransaction(nonce, quota, valid_until_block, version, chainId, value, init);
 ```
-#### `createContractTransaction(BigInteger nonce, long quota, long valid_until_block, int version, int chainId, String value, String init)`
+#### `createContractTransaction`
 根据参数新建一个交易。  
 
 **参数**  
@@ -69,7 +69,7 @@ Transaction txToDeployContract = Transction.createContractTransaction(nonce, quo
 String signedTx = txToDeployContract.sign(this.config.getPrivateKey(), false, false);
 AppSendTransaction appSendTx = service.sendRawTransaction(signedTx);
 ```
-#### `createFunctionCallTransaction(String to, BigInteger nonce, long quota, long valid_until_block, int version, int chainId, String value, String data)`
+#### `createFunctionCallTransaction)`
 根据参数新建一个交易。  
 
 **参数**  
@@ -105,7 +105,7 @@ Transaction txToCallContract = Transction.createFunctionCallTransaction(to, nonc
 String signedTx = txToDeployContract.sign(this.config.getPrivateKey(), false, false);
 AppSendTransaction appSendTx = service.sendRawTransaction(signedTx);
 ```
-#### `CitaTransactionManager(AppChainj appChainj, Credentials credentials)`
+#### `CitaTransactionManager`
 CitaTransactionManager继承自TransactionManager，进行了AppChain适配。由于在AppChain appchain中，没有支持sendTransaction()方法，所以私钥信息需要在实例化  CitaTransactionManager时传入，否则无法对交易签名。  
 
 **参数**  
@@ -121,7 +121,7 @@ Credentials credentials = Credentials.create(privateKey);
 AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 CitaTransactionManager transactionManager = new CitaTransactionManager(service, credentials);
 ```
-#### `AppSendTransaction sendTransaction(String to, String data, long quota, BigInteger nonce, long validUntilBlock, int version, int chainId, String value)`
+#### `sendTransaction`
 通过TransactionManager发送交易。  
 
 **参数**  
@@ -150,7 +150,7 @@ int chainId = 1;
 String value = "0";
 AppSendTransaction appSendTransaction = citaTransactionManager.sendTransaction(to, contractBin, quota, nonce, valid_until_block, BigInteger.valueOf(version), chainId, value);
 ```
-#### `CompletableFuture<AppSendTransaction> sendTransactionAsync(String to, String data, long quota, BigInteger nonce, long validUntilBlock, int version, int chainId, String value)`
+#### `sendTransactionAsync`
 通过TransactionManager发送交易。  
 
 **参数**  

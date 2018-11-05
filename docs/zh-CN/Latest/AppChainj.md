@@ -1,26 +1,26 @@
-appchainj接口继承了Ethereum和web3jRx两个接口，appchainj的实现类（比如JsonRpc2_0AppChainj），提供了方法以发送交易的方式对合约进行部署和函数调用。web3中没有提供将solidity合约转换为java类的方法，所以对合约的操作必须依赖合约或者合约函数的二进制码，即手动拼接参数。  
+appchainj接口继承了AppChain和AppChainjRx两个接口，appchainj的实现类（比如JsonRpc2_0AppChainj），提供了方法以发送交易的方式对合约进行部署和函数调用。appchainj中没有提供将solidity合约转换为java类的方法，所以对合约的操作必须依赖合约或者合约函数的二进制码，即手动拼接参数。  
 
-[build](AppChainj?id=nervosj-build-nervosjservice-nervosj)  
-[netPeer](AppChainj?id=requestlt-netpeercountgt-netpeer)  
-[appMetaData](AppChainj?id=requestlt-appmetadatagt-appmetadatadefaultblockparameter-defaultblockparameter)  
-[appBlockNumber](AppChainj?id=requestlt-appblocknumbergt-appblocknumber)  
-[appGetBalance](AppChainj?id=requestlt-appgetbalancegt-appgetbalancestring-address-defaultblockparameter-defaultblockparameter)  
-[appGetAbi](AppChainj?id=requestlt-appgetabigt-appgetabistring-contractaddress-defaultblockparameter-defaultblockparameter)  
-[appGetTransactionCount](AppChainj?id=requestlt-appgettransactioncountgt-appgettransactioncountstring-address-defaultblockparameter-defaultblockparameter)  
-[appGetCode](AppChainj?id=requestlt-appgetcodegt-appgetcodestring-address-defaultblockparameter-defaultblockparameter)  
-[appSendRawTransaction](AppChainj?id=requestlt-appsendtransactiongt-appsendrawtransactionstring-signedtransactiondata)  
-[appCall](AppChainj?id=requestlt-appcallgt-appcallcall-call-defaultblockparameter-defaultblockparameter)  
-[appGetBlockByHash](AppChainj?id=requestlt-appblockgt-appgetblockbyhash-string-blockhash-boolean-returnfulltransactionobjects)  
-[appGetBlockByNumber](AppChainj?id=requestlt-appblockgt-appgetblockbynumber-defaultblockparameter-defaultblockparameter-boolean-returnfulltransactionobjects)  
-[appGetTransactionByHash](AppChainj?id=requestlt-apptransactiongt-appgettransactionbyhashstring-transactionhash)  
-[appGetTransactionReceipt](AppChainj?id=requestlt-appgettransactionreceiptgt-appgettransactionreceiptstring-transactionhash)  
-[appNewFilter](AppChainj?id=requestlt-appfiltergt-appnewfilterorgnervosjprotocolcoremethodsrequestappfilter-appfilter)  
-[appNewBlockFilter](AppChainj?id=requestlt-appfiltergt-appnewblockfilter)  
-[appUninstallFilter](AppChainj?id=requestlt-appuninstallfiltergt-appuninstallfilterbiginteger-filterid)  
-[appGetFilterChanges](AppChainj?id=requestlt-apploggt-appgetfilterchangesbiginteger-filterid)  
-[appGetFilterLogs](AppChainj?id=requestlt-apploggt-appgetfilterlogsbiginteger-filterid)  
+[build](#appchainj-build)  
+[netPeer](#netpeer)  
+[appMetaData](#appmetadata)  
+[appBlockNumber](#appblocknumber)  
+[appGetBalance](#appgetbalance)  
+[appGetAbi](#appgetabi)  
+[appGetTransactionCount](#appgettransactioncount)  
+[appGetCode](#appgetcode)  
+[appSendRawTransaction](#appsendrawtransaction)  
+[appCall](#appcall)  
+[appGetBlockByHash](#appgetblockbyhash)  
+[appGetBlockByNumber](#appgetblockbynumber)  
+[appGetTransactionByHash](#appgettransactionbyhash)  
+[appGetTransactionReceipt](#appgettransactionreceiptgt)  
+[appNewFilter](#appnewfilter)  
+[appNewBlockFilter](#appnewblockfilter)  
+[appUninstallFilter](#appuninstallfilter)  
+[appGetFilterChanges](#appgetfilterchanges)  
+[appGetFilterLogs](#appgetfilterlogs)  
 
-#### `AppChainj build (AppChainjService appChainjService)`
+#### `AppChainj build`
 根据AppChainjService类型实例化appChainjService。  
 
 **参数**  
@@ -33,7 +33,7 @@ Web3实例
 ```
 AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 ```
-#### `Request<?, NetPeerCount> netPeer()` 
+#### `netPeer` 
 获取当前连接节点数。  
 
 **参数**  
@@ -48,7 +48,7 @@ AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 NetPeerCount netPeerCount = service.netPeerCount().send();
 BigInteger peerCount = netPeerCount.getQuantity();
 ```
-#### `Request<?, AppMetaData> appMetaData(DefaultBlockParameter defaultBlockParameter)`
+#### `appMetaData`
 获取指定块高的元数据。  
 
 **参数**  
@@ -66,7 +66,7 @@ int chainId = result.chainId;
 String chainName = result.chainName;
 String genesisTS = result.genesisTimestamp;
 ```
-#### `Request<?, AppBlockNumber> appBlockNumber()`
+#### `appBlockNumber`
 获取当前块高度。  
 
 **参数**  
@@ -81,7 +81,7 @@ AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 AppBlockNumber result = service.appBlockNumber().send();
 BigInteger blockNumber = result.getBlockNumber();
 ```
-#### `Request<?, AppGetBalance> appGetBalance(String address, DefaultBlockParameter defaultBlockParameter))`
+#### `appGetBalance`
 获取地址余额。  
 
 **参数**  
@@ -100,7 +100,7 @@ AppGetBalance getBalance = service.appGetBalance(addr, defaultBlockParamter).sen
 BigInteger balance = getBalance.getBalance();
 ```
 
-#### `Request<?, AppGetAbi> appGetAbi(String contractAddress, DefaultBlockParameter defaultBlockParameter)`
+#### `appGetAbi`
 获取合约的Abi。  
 
 **参数**  
@@ -119,7 +119,7 @@ AppGetAbi getAbi = service.appGetAbi(addr, defaultBlockParamter).send();
 String abi = getAbi.getAbi();
 ```
 
-#### `Request<?, AppGetTransactionCount> appGetTransactionCount(String address, DefaultBlockParameter defaultBlockParameter)`
+#### `appGetTransactionCount`
 获取账户发送合约数量。  
 
 **参数**  
@@ -138,7 +138,7 @@ AppGetTransactionCount getTransactionCount = service.appGetTransactionCount(addr
 BigInteger txCount = getTransactionCount.getTransactionCount();
 ```
 
-#### `Request<?, AppGetCode> appGetCode(String address, DefaultBlockParameter defaultBlockParameter)`
+#### `appGetCode`
 获取合约代码。  
 
 **参数**  
@@ -157,7 +157,7 @@ AppGetCode getCode = service.appGetCode(addr, defaultBlockParamter).send();
 Sring code = getCode.getCode();
 ```
 
-#### `Request<?, AppSendTransaction> appSendRawTransaction(String signedTransactionData)`
+#### `appSendRawTransaction`
 向区块链节点发送序列化交易。  
 
 **参数**  
@@ -180,7 +180,7 @@ AppSendTransaction sendTransaction = service.appSendRawTransaction(tx).send();
 String hash = sendTransaction.getHash();
 ```
 
-#### `Request<?, AppCall> appCall(Call call, DefaultBlockParameter defaultBlockParameter)`
+#### `appCall`
 调用合约接口。  
 
 **参数**  
@@ -198,7 +198,7 @@ AppCall appCall = service.appCall(call, DefaultBlockParameter.valueOf("latest"))
 String result = call.getValue();
 ```
 
-#### `Request<?, AppBlock> appGetBlockByHash (String blockHash, boolean returnFullTransactionObjects)`
+#### `appGetBlockByHash`
 根据块的哈希值查询块信息。  
 
 **参数**  
@@ -215,7 +215,7 @@ String blockHash = "{block hash to search}";
 AppBlock appBlock = service.appGetBlockByHash(blockHash, false).send();
 ```
 
-#### `Request<?, AppBlock> appGetBlockByNumber (DefaultBlockParameter defaultBlockParameter, boolean returnFullTransactionObjects)`
+#### `appGetBlockByNumber`
 根据块高度查询块信息。  
 
 **参数**  
@@ -230,7 +230,7 @@ Request<?, AppBlock>
 AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 AppBlock appBlock = service.appGetBlockByHash(DefaultBlockParameter.valueOf("latest"), false).send();
 ```
-#### `Request<?, AppTransaction> appGetTransactionByHash(String transactionHash)`
+#### `appGetTransactionByHash`
 根据哈希查询交易信息。  
 
 **参数**  
@@ -245,7 +245,7 @@ AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 String txHash = "{hash of transactino to be searched}";
 AppTransaction responseTx = service.appGetTransactionByHash(txHash).send();
 ```
-#### `Request<?, AppGetTransactionReceipt> appGetTransactionReceipt(String transactionHash)`
+#### `appGetTransactionReceipt`
 根据交易哈希查询交易回执。  
 
 **参数**  
@@ -260,7 +260,7 @@ AppChainj service = AppChainj.build(new HttpService("127.0.0.1"));
 String txHash = "{hash of transactino to be searched}";
 AppGetTransactionReceipt txReceipt = service.appGetTransactionReceipt(txHash).send();
 ```
-#### `Request<?, AppFilter> appNewFilter(org.nervosj.protocol.core.methods.request.AppFilter appFilter)`
+#### `appNewFilter`
 创建一个新的AppChain过滤器。  
 
 **参数**  
@@ -277,7 +277,7 @@ AppFilter appFilter = service.appNewFilter(txHash).send();
 BigInteger filterId = appFilter.getFilterId();
 ```
 
-#### `Request<?, AppFilter> appNewBlockFilter()`
+#### `appNewBlockFilter`
 创建一个新的块过滤器，当有新的块写入时通知。  
 
 **参数**  
@@ -293,7 +293,7 @@ AppFilter appFilter = service.appNewBlockFilter().send();
 BigInteger filterId = appFilter.getFilterId();
 ```
 
-#### `Request<?, AppUninstallFilter> appUninstallFilter(BigInteger filterId)`
+#### `appUninstallFilter`
 移除已部署的过滤器。  
 
 **参数**  
@@ -309,7 +309,7 @@ BigInteger filterId = {your filter Id };
 AppUninstallFilter uninstallFilter = service.appUninstallFilter(filterId).send();
 ```
 
-#### `Request<?, AppLog> appGetFilterChanges(BigInteger filterId)`
+#### `appGetFilterChanges`
 根据过滤器Id查询log，返回上一次查询之后的所有log。  
 
 **参数**  
@@ -325,7 +325,7 @@ BigInteger filterId = {your filter Id };
 AppLog logs = service.appGetFilterChanges(filterId).send();
 List<LogResult> results = logs.getLogs();
 ```
-#### `Request<?, AppLog> appGetFilterLogs(BigInteger filterId)`
+#### `appGetFilterLogs`
 根据过滤器Id查询log，返回符合输入filter Id的所有log。  
 
 **参数**  

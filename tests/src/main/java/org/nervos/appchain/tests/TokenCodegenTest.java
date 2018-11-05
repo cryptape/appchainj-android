@@ -15,8 +15,8 @@ import java.util.concurrent.TimeoutException;
 
 import org.nervos.appchain.abi.datatypes.Function;
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.methods.response.TransactionReceipt;
 import org.nervos.appchain.protocol.http.HttpService;
 import org.nervos.appchain.tx.CitaTransactionManager;
@@ -30,7 +30,7 @@ public class TokenCodegenTest {
     private static String creatorPrivateKey;
     private static Credentials creator;
     private static ArrayList<Credentials> testAccounts = new ArrayList<>();
-    private static Nervosj service;
+    private static AppChainj service;
     private static Random random;
     private static BigInteger quota;
     private static String value;
@@ -55,7 +55,7 @@ public class TokenCodegenTest {
         loadAccounts();
 
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetIpAddr));
+        service = AppChainjFactory.build(new HttpService(testNetIpAddr));
         random = new Random(System.currentTimeMillis());
         quota = BigInteger.valueOf(1000000);
         value = "0";

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.Request;
 import org.nervos.appchain.protocol.core.methods.response.AppFilter;
 import org.nervos.appchain.protocol.core.methods.response.AppLog;
@@ -14,13 +14,13 @@ import org.nervos.appchain.protocol.core.methods.response.AppLog;
  */
 public class PendingTransactionFilter extends Filter<String> {
 
-    public PendingTransactionFilter(Nervosj nervosj, Callback<String> callback) {
-        super(nervosj, callback);
+    public PendingTransactionFilter(AppChainj appChainj, Callback<String> callback) {
+        super(appChainj, callback);
     }
 
     @Override
     AppFilter sendRequest() throws IOException {
-        return nervosj.appNewPendingTransactionFilter().send();
+        return appChainj.appNewPendingTransactionFilter().send();
     }
 
     @Override

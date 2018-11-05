@@ -3,15 +3,15 @@ package org.nervos.appchain.tx;
 import java.io.IOException;
 import java.math.BigInteger;
 
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.core.JsonRpc2_0Web3j;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.core.JsonRpc2_0AppChainj;
 import org.nervos.appchain.protocol.core.methods.response.AppSendTransaction;
 import org.nervos.appchain.protocol.core.methods.response.TransactionReceipt;
 import org.nervos.appchain.protocol.exceptions.TransactionException;
 import org.nervos.appchain.tx.response.PollingTransactionReceiptProcessor;
 import org.nervos.appchain.tx.response.TransactionReceiptProcessor;
 
-import static org.nervos.appchain.protocol.core.JsonRpc2_0Web3j.DEFAULT_BLOCK_TIME;
+import static org.nervos.appchain.protocol.core.JsonRpc2_0AppChainj.DEFAULT_BLOCK_TIME;
 
 /**
  * Transaction manager abstraction for executing transactions with Ethereum client via
@@ -22,7 +22,7 @@ import static org.nervos.appchain.protocol.core.JsonRpc2_0Web3j.DEFAULT_BLOCK_TI
 public abstract class TransactionManager {
 
     public static final int DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH = 40;
-    public static final long DEFAULT_POLLING_FREQUENCY = JsonRpc2_0Web3j.DEFAULT_BLOCK_TIME;
+    public static final long DEFAULT_POLLING_FREQUENCY = JsonRpc2_0AppChainj.DEFAULT_BLOCK_TIME;
 
     private final TransactionReceiptProcessor transactionReceiptProcessor;
     private final String fromAddress;
@@ -33,17 +33,17 @@ public abstract class TransactionManager {
         this.fromAddress = fromAddress;
     }
 
-    protected TransactionManager(Nervosj nervosj, String fromAddress) {
+    protected TransactionManager(AppChainj appChainj, String fromAddress) {
         this(new PollingTransactionReceiptProcessor(
-                        nervosj, DEFAULT_POLLING_FREQUENCY,
+                        appChainj, DEFAULT_POLLING_FREQUENCY,
                         DEFAULT_POLLING_ATTEMPTS_PER_TX_HASH),
                 fromAddress);
     }
 
     protected TransactionManager(
-            Nervosj nervosj, int attempts, long sleepDuration, String fromAddress) {
+            AppChainj appChainj, int attempts, long sleepDuration, String fromAddress) {
         this(new PollingTransactionReceiptProcessor(
-                nervosj, sleepDuration, attempts), fromAddress);
+                appChainj, sleepDuration, attempts), fromAddress);
     }
 
     protected TransactionReceipt executeTransaction(

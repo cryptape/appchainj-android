@@ -1,12 +1,12 @@
-# Nervos Docs
+# AppChain Docs
 
-[docs.nervos.org](https://docs.nervos.org/) is the documentation website for all the Nervos Network related components.
-This repository is working as both the front page of Nervos Docs and an example for building other Nervos related docs.
+[docs.nervos.org](https://docs.nervos.org/) is the documentation website for all the AppChain Network related components.
+This repository is working as both the front page of AppChain Docs and an example for building other AppChain related docs.
 
-## How to Make Another Nervos Document Website in Your Project Repo
+## How to Make Another AppChain Document Website in Your Project Repo
 
 ### We use Docsify & Github Page
-Nervos Documentents are using an easy generated document site framework [Docsify](https://docsify.js.org/#/). It's an awesome project and we really appreciate the the contributors of this project.
+AppChain Documentents are using an easy generated document site framework [Docsify](https://docsify.js.org/#/). It's an awesome project and we really appreciate the the contributors of this project.
 
 Document files are written in Markdown language.
 
@@ -21,7 +21,7 @@ If you havn't use yarn before, please refer here (https://yarnpkg.com/lang/en/do
 
 Get the necessary site files.
 ```
-git clone https://github.com/cryptape/Nervos-Docs.git
+git clone https://github.com/cryptape/AppChain-Docs.git
 ```
 Do some customizations by configuring the `script/customization-seting.js` you can make some configurations. 
 
@@ -64,7 +64,7 @@ The `repo-name/docs` or `gh-pages branch` should be organized in a structure lik
 If you want to link to one of the markdown files, the path would be something like: `[First Markdown](/zh-CN/V0.0.1/first)`
 
 #### Sidebar and Navibar Files
-You can learn how do it by just simply refering the `_navbar.md` and `_sidebar.md` files in [this repo](https://github.com/cryptape/Nervos-Docs) as an example.
+You can learn how do it by just simply refering the `_navbar.md` and `_sidebar.md` files in [this repo](https://github.com/cryptape/AppChain-Docs) as an example.
 
 I have faith in you.
 

@@ -6,7 +6,7 @@ package org.nervos.appchain.tests;
 //import java.util.Properties;
 //import java.util.Random;
 //
-//import org.nervos.appchain.protocol.Nervosj;
+//import org.nervos.appchain.protocol.AppChainj;
 //import org.nervos.appchain.protocol.account.Account;
 //import org.nervos.appchain.protocol.account.CompiledContract;
 //import org.nervos.appchain.protocol.core.methods.response.AbiDefinition;
@@ -31,7 +31,7 @@ package org.nervos.appchain.tests;
 //    private static Random random;
 //    private static long quota;
 //    private static String value;
-//    private static Nervosj service;
+//    private static AppChainj service;
 //
 //    private Account account;
 //    private CompiledContract tokenContract;
@@ -54,7 +54,7 @@ package org.nervos.appchain.tests;
 //        solPath = props.getProperty(Config.TOKEN_SOLIDITY);
 //
 //        HttpService.setDebug(false);
-//        service = Nervosj.build(new HttpService(testNetIpAddr));
+//        service = AppChainj.build(new HttpService(testNetIpAddr));
 //        random = new Random(System.currentTimeMillis());
 //        quota = 1000000L;
 //        value = "0";

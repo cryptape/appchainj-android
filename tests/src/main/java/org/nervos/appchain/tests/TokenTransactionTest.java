@@ -18,8 +18,8 @@ import org.nervos.appchain.abi.datatypes.Type;
 import org.nervos.appchain.abi.datatypes.Uint;
 import org.nervos.appchain.abi.datatypes.generated.Uint256;
 
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameter;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.methods.request.Call;
@@ -44,7 +44,7 @@ public class TokenTransactionTest {
     private static Random random;
     private static BigInteger quota;
     private static String value;
-    private static Nervosj service;
+    private static AppChainj service;
 
     static {
         try {
@@ -63,7 +63,7 @@ public class TokenTransactionTest {
         binPath = props.getProperty(Config.TOKEN_BIN);
 
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetIpAddr));
+        service = AppChainjFactory.build(new HttpService(testNetIpAddr));
         random = new Random(System.currentTimeMillis());
         quota = BigInteger.valueOf(1000000);
         value = "0";

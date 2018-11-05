@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameter;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterNumber;
@@ -27,7 +27,7 @@ public class TokenFilterTest {
     private static int version;
     private static String payerPrivateKey;
     private static String payeePrivateKey;
-    private static Nervosj service;
+    private static AppChainj service;
     private static long quota;
     private static String value;
     private static Token token;
@@ -49,7 +49,7 @@ public class TokenFilterTest {
         payeePrivateKey = props.getProperty(Config.TEST_PRIVATE_KEY_1);
 
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetIpAddr));
+        service = AppChainjFactory.build(new HttpService(testNetIpAddr));
         quota = 1000000L;
         value = "0";
     }

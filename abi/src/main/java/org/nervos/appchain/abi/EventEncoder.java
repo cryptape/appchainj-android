@@ -41,17 +41,17 @@ public class EventEncoder {
         result.append(methodName);
         result.append("(");
 
-        String params = "";
-        for(int i = 0; i < parameters.size(); i++) {
+        StringBuilder params = new StringBuilder("");
+        for (int i = 0; i < parameters.size(); i++) {
             TypeReference<T> typeReference = parameters.get(i);
             String typeName = Utils.getTypeName(typeReference);
-            params += typeName;
-            if(i + 1 < parameters.size()) {
-                params += ",";
+            params.append(typeName);
+            if (i + 1 < parameters.size()) {
+                params.append(",");
             }
         }
 
-        result.append(params);
+        result.append(params.toString());
         result.append(")");
         return result.toString();
     }
@@ -67,16 +67,16 @@ public class EventEncoder {
         result.append(methodName);
         result.append("(");
 
-        String params = "";
+        StringBuilder params = new StringBuilder("");
         for (int i = 0; i < parameters.size(); i++) {
-            TypeReference<T> typeReference =parameters.get(i);
+            TypeReference<T> typeReference = parameters.get(i);
             String typeName = Utils.getTypeName(typeReference);
-            params += typeName;
+            params.append(typeName);
             if (i + 1 < parameters.size()) {
-                params += ",";
+                params.append(",");
             }
         }
-        result.append(params);
+        result.append(params.toString());
         result.append(")");
         return result.toString();
     }

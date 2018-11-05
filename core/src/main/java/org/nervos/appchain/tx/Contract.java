@@ -19,7 +19,7 @@ import org.nervos.appchain.abi.datatypes.Event;
 import org.nervos.appchain.abi.datatypes.Function;
 import org.nervos.appchain.abi.datatypes.Type;
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.RemoteCall;
 import org.nervos.appchain.protocol.core.methods.request.Call;
@@ -49,9 +49,9 @@ public abstract class Contract extends ManagedTransaction {
     protected Map<String, String> deployedAddresses;
 
     protected Contract(String contractBinary, String contractAddress,
-                       Nervosj nervosj, TransactionManager transactionManager,
+                       AppChainj appChainj, TransactionManager transactionManager,
                        BigInteger gasPrice, BigInteger gasLimit) {
-        super(nervosj, transactionManager);
+        super(appChainj, transactionManager);
 
         //this.contractAddress = ensResolver.resolve(contractAddress);
 
@@ -62,39 +62,39 @@ public abstract class Contract extends ManagedTransaction {
     }
 
     protected Contract(String contractBinary, String contractAddress,
-                       Nervosj nervosj, TransactionManager transactionManager) {
-        this(contractBinary, contractAddress, nervosj,
+                       AppChainj appChainj, TransactionManager transactionManager) {
+        this(contractBinary, contractAddress, appChainj,
                 transactionManager, BigInteger.ZERO, BigInteger.ZERO);
     }
 
     protected Contract(String contractBinary, String contractAddress,
-                       Nervosj nervosj, Credentials credentials,
+                       AppChainj appChainj, Credentials credentials,
                        BigInteger gasPrice, BigInteger gasLimit) {
-        this(contractBinary, contractAddress, nervosj,
-                new RawTransactionManager(nervosj, credentials),
+        this(contractBinary, contractAddress, appChainj,
+                new RawTransactionManager(appChainj, credentials),
                 gasPrice, gasLimit);
     }
 
     @Deprecated
     protected Contract(String contractAddress,
-                       Nervosj nervosj, TransactionManager transactionManager,
+                       AppChainj appChainj, TransactionManager transactionManager,
                        BigInteger gasPrice, BigInteger gasLimit) {
-        this("", contractAddress, nervosj, transactionManager, gasPrice, gasLimit);
+        this("", contractAddress, appChainj, transactionManager, gasPrice, gasLimit);
     }
 
     @Deprecated
     protected Contract(String contractAddress,
-                       Nervosj nervosj, TransactionManager transactionManager) {
-        this("", contractAddress, nervosj,
+                       AppChainj appChainj, TransactionManager transactionManager) {
+        this("", contractAddress, appChainj,
                 transactionManager, BigInteger.ZERO, BigInteger.ZERO);
     }
 
     @Deprecated
     protected Contract(String contractAddress,
-                       Nervosj nervosj, Credentials credentials,
+                       AppChainj appChainj, Credentials credentials,
                        BigInteger gasPrice, BigInteger gasLimit) {
-        this("", contractAddress, nervosj,
-                new RawTransactionManager(nervosj, credentials),
+        this("", contractAddress, appChainj,
+                new RawTransactionManager(appChainj, credentials),
                 gasPrice, gasLimit);
     }
 
@@ -124,16 +124,16 @@ public abstract class Contract extends ManagedTransaction {
      * contract wrapper.
      *
      * @return true if the contract is valid
-     * @throws IOException if unable to connect to nervosj node
+     * @throws IOException if unable to connect to appchainj node
      */
     public boolean isValid() throws IOException {
         if (contractAddress.equals("")) {
             throw new UnsupportedOperationException(
                     "Contract binary not present, you will need to regenerate your smart "
-                            + "contract wrapper with nervosj v2.2.0+");
+                            + "contract wrapper with appchainj v2.2.0+");
         }
 
-        AppGetCode ethGetCode = nervosj
+        AppGetCode ethGetCode = appChainj
                 .appGetCode(contractAddress, DefaultBlockParameterName.LATEST)
                 .send();
         if (ethGetCode.hasError()) {
@@ -167,7 +167,7 @@ public abstract class Contract extends ManagedTransaction {
             Function function) throws IOException {
         String encodedFunction = FunctionEncoder.encode(function);
         AppCall ethCall =
-                nervosj.appCall(
+                appChainj.appCall(
                         new Call(transactionManager.getFromAddress(),
                                 contractAddress, encodedFunction),
                         DefaultBlockParameterName.LATEST).send();
@@ -351,7 +351,7 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> T deploy(
             Class<T> type,
-            Nervosj nervosj, Credentials credentials,
+            AppChainj appChainj, Credentials credentials,
             BigInteger gasPrice, BigInteger gasLimit,
             String binary, String encodedConstructor, String value) throws
             IOException, TransactionException {
@@ -359,7 +359,7 @@ public abstract class Contract extends ManagedTransaction {
         try {
             Constructor<T> constructor = type.getDeclaredConstructor(
                     String.class,
-                    Nervosj.class, Credentials.class,
+                    AppChainj.class, Credentials.class,
                     BigInteger.class, BigInteger.class);
             constructor.setAccessible(true);
 
@@ -367,7 +367,7 @@ public abstract class Contract extends ManagedTransaction {
             // We don't need to modify this,
             // because we must specify the CitaTransactionManager which used to send transaction
             T contract = constructor.newInstance(
-                    null, nervosj, credentials, gasPrice, gasLimit);
+                    null, appChainj, credentials, gasPrice, gasLimit);
 
             return create(contract, binary, encodedConstructor, value);
         } catch (Exception e) {
@@ -377,7 +377,7 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> T deploy(
             Class<T> type,
-            Nervosj nervosj, TransactionManager transactionManager,
+            AppChainj appChainj, TransactionManager transactionManager,
             BigInteger gasPrice, BigInteger gasLimit,
             String binary, String encodedConstructor, String value)
             throws IOException, TransactionException {
@@ -385,14 +385,14 @@ public abstract class Contract extends ManagedTransaction {
         try {
             Constructor<T> constructor = type.getDeclaredConstructor(
                     String.class,
-                    Nervosj.class, TransactionManager.class,
+                    AppChainj.class, TransactionManager.class,
                     BigInteger.class, BigInteger.class);
             constructor.setAccessible(true);
 
             // we want to use null here to ensure that "to" parameter on message is not populated
             // Unfortunately, we need empty string(not null) that represent create contract
             T contract = constructor.newInstance(
-                    "", nervosj, transactionManager, gasPrice, gasLimit);
+                    "", appChainj, transactionManager, gasPrice, gasLimit);
             return create(contract, binary, encodedConstructor, value);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -401,7 +401,7 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> T deploy(
             Class<T> type,
-            Nervosj nervosj, TransactionManager transactionManager,
+            AppChainj appChainj, TransactionManager transactionManager,
             long quota, BigInteger nonce, long validUntilBlock,
             int version, String binary, int chainId,
             String value, String encodedConstructor)
@@ -410,13 +410,13 @@ public abstract class Contract extends ManagedTransaction {
         try {
             Constructor<T> constructor = type.getDeclaredConstructor(
                     String.class,
-                    Nervosj.class, TransactionManager.class);
+                    AppChainj.class, TransactionManager.class);
             constructor.setAccessible(true);
 
             // we want to use null here to ensure that "to" parameter on message is not populated
             // Unfortunately, we need empty string(not null) that represent create contract
             T contract = constructor.newInstance(
-                    "", nervosj, transactionManager);
+                    "", appChainj, transactionManager);
             return create(contract, binary, encodedConstructor, quota, nonce,
                     validUntilBlock, version, chainId, value);
         } catch (Exception e) {
@@ -426,7 +426,7 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> RemoteCall<T>
                     deployRemoteCall(
-            final Class<T> type, final Nervosj nervosj, final TransactionManager transactionManager,
+            final Class<T> type, final AppChainj appChainj, final TransactionManager transactionManager,
             final long quota, final BigInteger nonce, final long validUntilBlock,
             final int version, final int chainId, final String value,
             final String binary, final String encodedConstructor) {
@@ -434,7 +434,7 @@ public abstract class Contract extends ManagedTransaction {
             @Override
             public T call() throws Exception {
                 return deploy(
-                        type, nervosj, transactionManager, quota, nonce, validUntilBlock,
+                        type, appChainj, transactionManager, quota, nonce, validUntilBlock,
                         version, binary, chainId, value, encodedConstructor);
             }
         });
@@ -442,7 +442,7 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> RemoteCall<T> deployRemoteCall(
             final Class<T> type,
-            final Nervosj nervosj, final Credentials credentials,
+            final AppChainj appChainj, final Credentials credentials,
             final BigInteger gasPrice, final BigInteger gasLimit,
             final String binary, final String encodedConstructor,
             final String value) {
@@ -450,7 +450,7 @@ public abstract class Contract extends ManagedTransaction {
             @Override
             public T call() throws Exception {
                 return deploy(
-                        type, nervosj, credentials, gasPrice, gasLimit, binary,
+                        type, appChainj, credentials, gasPrice, gasLimit, binary,
                         encodedConstructor, value);
             }
         });
@@ -458,24 +458,24 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> RemoteCall<T> deployRemoteCall(
             Class<T> type,
-            Nervosj nervosj, Credentials credentials,
+            AppChainj appChainj, Credentials credentials,
             BigInteger gasPrice, BigInteger gasLimit,
             String binary, String encodedConstructor) {
         return deployRemoteCall(
-                type, nervosj, credentials, gasPrice, gasLimit,
+                type, appChainj, credentials, gasPrice, gasLimit,
                 binary, encodedConstructor, "0");
     }
 
     protected static <T extends Contract> RemoteCall<T> deployRemoteCall(
             final Class<T> type,
-            final Nervosj nervosj, final TransactionManager transactionManager,
+            final AppChainj appChainj, final TransactionManager transactionManager,
             final BigInteger gasPrice, final BigInteger gasLimit,
             final String binary, final String encodedConstructor, final String value) {
         return new RemoteCall<T>(new Callable<T>() {
             @Override
             public T call() throws Exception {
                 return deploy(
-                        type, nervosj, transactionManager, gasPrice, gasLimit, binary,
+                        type, appChainj, transactionManager, gasPrice, gasLimit, binary,
                         encodedConstructor, value);
             }
         });
@@ -483,11 +483,11 @@ public abstract class Contract extends ManagedTransaction {
 
     protected static <T extends Contract> RemoteCall<T> deployRemoteCall(
             Class<T> type,
-            Nervosj nervosj, TransactionManager transactionManager,
+            AppChainj appChainj, TransactionManager transactionManager,
             BigInteger gasPrice, BigInteger gasLimit,
             String binary, String encodedConstructor) {
         return deployRemoteCall(
-                type, nervosj, transactionManager, gasPrice, gasLimit, binary,
+                type, appChainj, transactionManager, gasPrice, gasLimit, binary,
                 encodedConstructor, "0");
     }
 

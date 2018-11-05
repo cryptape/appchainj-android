@@ -7,8 +7,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.nervos.appchain.crypto.Credentials;
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.RemoteCall;
 import org.nervos.appchain.protocol.core.methods.request.Transaction;
@@ -30,7 +30,7 @@ public class SendTransactionAsyncTest {
     static Properties props;
     static long quota;
 
-    static Nervosj service;
+    static AppChainj service;
 
     static {
         props = Config.load();
@@ -43,7 +43,7 @@ public class SendTransactionAsyncTest {
         quota = Long.parseLong(props.getProperty(Config.DEFAULT_QUOTA));
 
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetAddr));
+        service = AppChainjFactory.build(new HttpService(testNetAddr));
     }
 
     static BigInteger getBalance(String address) {

@@ -2,17 +2,17 @@ package org.nervos.appchain.tests;
 
 import java.util.Properties;
 
-import org.nervos.appchain.protocol.Nervosj;
-import org.nervos.appchain.protocol.NervosjFactory;
+import org.nervos.appchain.protocol.AppChainj;
+import org.nervos.appchain.protocol.AppChainjFactory;
 import org.nervos.appchain.protocol.core.methods.response.AppCall;
 import org.nervos.appchain.protocol.http.HttpService;
-import org.nervos.appchain.protocol.system.NervosjSysContract;
+import org.nervos.appchain.protocol.system.AppChainjSysContract;
 
 public class SystemContractExample {
 
     static Properties props;
     static String testNetAddr;
-    static Nervosj service;
+    static AppChainj service;
     static String senderAddr;
 
     static {
@@ -24,13 +24,13 @@ public class SystemContractExample {
         }
         testNetAddr = props.getProperty(Config.TEST_NET_ADDR);
         HttpService.setDebug(false);
-        service = NervosjFactory.build(new HttpService(testNetAddr));
+        service = AppChainjFactory.build(new HttpService(testNetAddr));
         senderAddr = props.getProperty(Config.SENDER_ADDR);
 
     }
 
     public static void main(String[] args) throws Exception {
-        NervosjSysContract sysContract = new NervosjSysContract(service);
+        AppChainjSysContract sysContract = new AppChainjSysContract(service);
         AppCall appcall = sysContract.getQuotaPrice(senderAddr);
 
         if (appcall.getError() != null) {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.nervos.appchain.protocol.Nervosj;
+import org.nervos.appchain.protocol.AppChainj;
 import org.nervos.appchain.protocol.core.DefaultBlockParameter;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterName;
 import org.nervos.appchain.protocol.core.DefaultBlockParameterNumber;
@@ -31,16 +31,16 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
 /**
- * nervosj reactive API implementation.
+ * appChainj reactive API implementation.
  */
 public class JsonRpc2_0Rx {
 
-    private final Nervosj nervosj;
+    private final AppChainj appChainj;
     private final ScheduledExecutorService scheduledExecutorService;
     private final Scheduler scheduler;
 
-    public JsonRpc2_0Rx(Nervosj nervosj, ScheduledExecutorService scheduledExecutorService) {
-        this.nervosj = nervosj;
+    public JsonRpc2_0Rx(AppChainj appChainj, ScheduledExecutorService scheduledExecutorService) {
+        this.appChainj = appChainj;
         this.scheduledExecutorService = scheduledExecutorService;
         this.scheduler = Schedulers.from(scheduledExecutorService);
     }
@@ -50,7 +50,7 @@ public class JsonRpc2_0Rx {
             @Override
             public void call(final Subscriber<? super String> subscriber) {
                 BlockFilter blockFilter = new BlockFilter(
-                        nervosj, new Callback<String>() {
+                        appChainj, new Callback<String>() {
                     @Override
                     public void onEvent(String value) {
                         subscriber.onNext(value);
@@ -66,7 +66,7 @@ public class JsonRpc2_0Rx {
             @Override
             public void call(final Subscriber<? super String> subscriber) {
                 PendingTransactionFilter pendingTransactionFilter = new PendingTransactionFilter(
-                        nervosj, new Callback<String>() {
+                        appChainj, new Callback<String>() {
                     @Override
                     public void onEvent(String value) {
                         subscriber.onNext(value);
@@ -83,7 +83,7 @@ public class JsonRpc2_0Rx {
             @Override
             public void call(final Subscriber<? super Log> subscriber) {
                 LogFilter logFilter = new LogFilter(
-                        nervosj, new Callback<Log>() {
+                        appChainj, new Callback<Log>() {
                     @Override
                     public void onEvent(Log value) {
                         subscriber.onNext(value);
@@ -123,7 +123,7 @@ public class JsonRpc2_0Rx {
                 .flatMap(new Func1<String, Observable<AppTransaction>>() {
                     @Override
                     public Observable<AppTransaction> call(final String transactionHash) {
-                        return nervosj.appGetTransactionByHash(transactionHash).observable();
+                        return appChainj.appGetTransactionByHash(transactionHash).observable();
                     }
                 })
                 .map(new Func1<AppTransaction, Transaction>() {
@@ -140,7 +140,7 @@ public class JsonRpc2_0Rx {
                 .flatMap(new Func1<String, Observable<? extends AppBlock>>() {
                     @Override
                     public Observable<? extends AppBlock> call(final String blockHash) {
-                        return nervosj.appGetBlockByHash(blockHash, fullTransactionObjects).observable();
+                        return appChainj.appGetBlockByHash(blockHash, fullTransactionObjects).observable();
                     }
                 });
     }
@@ -184,7 +184,7 @@ public class JsonRpc2_0Rx {
                     .flatMap(new Func1<BigInteger, Observable<? extends AppBlock>>() {
                         @Override
                         public Observable<? extends AppBlock> call(BigInteger i) {
-                            return nervosj.appGetBlockByNumber(
+                            return appChainj.appGetBlockByNumber(
                                     new DefaultBlockParameterNumber(i),
                                     fullTransactionObjects).observable();
                         }
@@ -194,7 +194,7 @@ public class JsonRpc2_0Rx {
                     .flatMap(new Func1<BigInteger, Observable<? extends AppBlock>>() {
                         @Override
                         public Observable<? extends AppBlock> call(BigInteger i) {
-                            return nervosj.appGetBlockByNumber(
+                            return appChainj.appGetBlockByNumber(
                                     new DefaultBlockParameterNumber(i),
                                     fullTransactionObjects).observable();
                         }
@@ -305,7 +305,7 @@ public class JsonRpc2_0Rx {
         if (defaultBlockParameter instanceof DefaultBlockParameterNumber) {
             return ((DefaultBlockParameterNumber) defaultBlockParameter).getBlockNumber();
         } else {
-            AppBlock latestEthBlock = nervosj.appGetBlockByNumber(
+            AppBlock latestEthBlock = appChainj.appGetBlockByNumber(
                     defaultBlockParameter, false).send();
             return latestEthBlock.getBlock().getHeader().getNumberDec();
         }

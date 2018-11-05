@@ -1,4 +1,4 @@
-# appchainj
+# appchainj-android
 [![Build Status](https://travis-ci.org/cryptape/nervosj.svg?branch=android)](https://travis-ci.org/cryptape/appchainj-android)
 ## Introduction
 appchainj, originally adapted from Ethereum Web3j, is a Java library for working with Smart Contract and integrating with clients which include Android Applications on AppChain network.
